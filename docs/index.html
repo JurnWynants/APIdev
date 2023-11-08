@@ -1,0 +1,16 @@
+<html>
+<head>
+    <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div x-data="{
+        responsedata: null,
+        async getData() {
+            this.responsedata = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/')).json();
+        }
+    }">
+         <button x-on:click="getData">Send get request</button>
+         Data returned: <strong x-text="responsedata[0].email">Placeholder</strong>
+    </div>
+</body>
+</html>
