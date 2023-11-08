@@ -8,8 +8,7 @@
         async getData() {
             this.responseData = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/')).json();
         }
-    }">
-        <button x-on:click="getData">Send get request</button>
+    }" x-init="getData">
         <ul>
             <template x-for="user in responseData" :key="user.id">
                 <li>
@@ -17,7 +16,7 @@
                     <ul>
                         <template x-for="book in user.books" :key="book.id">
                             <li>
-                                Book ID: <strong x-text="book.id"></strong>, Title: <strong x-text="book.title"></strong>
+                                Book title: <strong x-text="book.title"></strong>
                             </li>
                         </template>
                     </ul>
