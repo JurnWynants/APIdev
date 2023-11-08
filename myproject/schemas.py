@@ -1,16 +1,17 @@
 from pydantic import BaseModel
 
 
-class ItemBase(BaseModel):
+class BookBase(BaseModel):
     title: str
     description: str | None = None
+    releaseyear: int
 
 
-class ItemCreate(ItemBase):
+class BookCreate(BookBase):
     pass
 
 
-class Item(ItemBase):
+class Book(BookBase):
     id: int
     owner_id: int
 
@@ -29,7 +30,7 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: int
     is_active: bool
-    items: list[Item] = []
+    books: list[Book] = []
 
     class Config:
         orm_mode = True
