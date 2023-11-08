@@ -5,7 +5,12 @@ services:
   ports:
     - "8000:8000"
   volumes:
-    - sqlite_data_volume:/code/sqlitedb
+    - postgresql_data_volume:/var/lib/postgresql/data
+  environment:
+      POSTGRES_DB: APIdb
+      POSTGRES_USER: Jurn
+      POSTGRES_PASSWORD: test
 
 volumes:
-  sqlite_data_volume:
+  postgresql_data_volume:
+  
