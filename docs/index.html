@@ -14,6 +14,13 @@
             <template x-for="user in responseData" :key="user.id">
                 <li>
                     ID: <strong x-text="user.id"></strong>, Email: <strong x-text="user.email"></strong>
+                    <ul>
+                        <template x-for="book in user.books" :key="book.id">
+                            <li>
+                                Book ID: <strong x-text="book.id"></strong>, Title: <strong x-text="book.title"></strong>
+                            </li>
+                        </template>
+                    </ul>
                 </li>
             </template>
         </ul>
