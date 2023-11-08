@@ -20,8 +20,7 @@ print("Tables created.......")
 app = FastAPI()
 
 origins = [
-    "https://jurnwynants.github.io/APIdev/",
-    "https://jurnwynants.github.io/"
+    "*"
 ]
 
 app.add_middleware(
