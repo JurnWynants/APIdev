@@ -45,9 +45,13 @@
             console.log(this.responsedata);
         },
     }">
-        <input type="text" x-model="email">
-     <input type="text" x-model="password">
-        <button x-on:click="callmethod1">Call method</button>
+     <br><br><br><br><br><br><br><br>
+     <h1>Create user</h1><br>
+     <h2>Email</h2>
+        <input type="text" x-model="email"><br>
+     <h2>Password</h2>
+     <input type="text" x-model="password"><br>
+        <button x-on:click="callmethod1">Create user</button>
 
         <p>User added with id: <strong x-text="responsedata.id"></strong></p>
         <p>User that was added: <strong x-text="responsedata.email"></strong></p>
