@@ -1,37 +1,14 @@
 <html>
 <head>
-    <script defer src="https://unpkg.com/alpinejs@2.8.2/dist/alpine.min.js" integrity="sha384-M5pQGDxZGKc5LF6e8It6Zx3KTdLMHqK5fDdVyUp+B9n8t+81OOEdNYFddKQkQapJ" crossorigin="anonymous"></script>
-
-     <style>
-        /* Apply Comic Sans font to the body and all text elements */
-        body, h1, li, strong {
-            font-family: 'Comic Sans MS', cursive, sans-serif;
-        }
-    </style>
+    <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
 </head>
 <body>
     <div x-data="{
         responseData: [],
-        email: '',
-        password: '',
         async getData() {
             this.responseData = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/')).json();
-        },
-        async createUser() {
-            const response = await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    email: this.email,
-                    password: this.password,
-                }),
-            });
-            this.getData(); // Refresh data after creating a user
         }
     }" x-init="getData">
-        <h1>Users</h1>
         <ul>
             <template x-for="user in responseData" :key="user.id">
                 <li>
@@ -46,16 +23,35 @@
                 </li>
             </template>
         </ul>
-        
-        <form x-on:submit.prevent="createUser">
-            <label for="email">Email:</label>
-            <input type="email" id="email" x-model="email" required>
+    </div>
 
-            <label for="password">Password:</label>
-            <input type="password" id="password" x-model="password" required>
+ <div x-data="{
+        responsedata: null,
+        email: null,
+        password: null,
+        async callmethod1() {
+            this.responsedata = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/',
+            {
+                method: 'POST',
+                body: JSON.stringify({
+                    email: this.email,
+                    password: this.password
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })).json();
 
-            <button type="submit">Create User</button>
-        </form>
+            console.log(this.responsedata);
+        },
+    }">
+        <input type="text" x-model="email">
+     <input type="text" x-model="password">
+        <button x-on:click="callmethod1">Call method</button>
+
+        <p>User added with id: <strong x-text="responsedata.id"></strong></p>
+        <p>User that was added: <strong x-text="responsedata.email"></strong></p>
+
     </div>
 </body>
 </html>
