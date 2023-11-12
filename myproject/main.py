@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 
+import secrets
 import os
 import crud
 import models
@@ -45,9 +46,18 @@ def get_db():
         db.close()
 
 
-# Dependency for checking basic auth credentials
 def check_credentials(credentials: HTTPBasicCredentials = Depends(security)):
-    if not (credentials.username == "admin@bib.com") or not (credentials.password == "testPass"):
+    current_username_bytes = credentials.username.encode("utf8")
+    correct_username_bytes = b"admin@bib.com"
+    is_correct_username = secrets.compare_digest(
+        current_username_bytes, correct_username_bytes
+    )
+    current_password_bytes = credentials.password.encode("utf8")
+    correct_password_bytes = b"testPass"
+    is_correct_password = secrets.compare_digest(
+        current_password_bytes, correct_password_bytes
+    )
+    if not (is_correct_username and is_correct_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect email or password",
