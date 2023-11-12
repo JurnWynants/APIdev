@@ -41,7 +41,7 @@
         <ul>
             <template x-for="user in responseData" :key="user.id">
                 <li>
-                    ID: <strong x-text="user.id"></strong>, Email: <strong x-text="user.email"></strong> , pass: <strong x-text="user.hashed_password"></strong>
+                    ID: <strong x-text="user.id"></strong>, Email: <strong x-text="user.email"></strong>
                     <ul>
                         <template x-for="book in user.books" :key="book.id">
                             <li>
