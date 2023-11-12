@@ -35,3 +35,16 @@ def create_user_book(db: Session, book: schemas.BookCreate, user_id: int):
     db.commit()
     db.refresh(db_book)
     return db_book
+
+
+def delete_user(db: Session, user_id: int):
+    db_user = db.query(models.User).filter(models.User.id == user_id).first()
+    db.delete(db_user)
+    db.commit()
+    return db_user
+
+def delete_book(db: Session, book_id: int):
+    db_book = db.query(models.Book).filter(models.Book.id == book_id).first()
+    db.delete(db_book)
+    db.commit()
+    return db_book

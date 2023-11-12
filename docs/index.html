@@ -1,14 +1,38 @@
 <html>
 <head>
     <script defer src="https://unpkg.com/alpinejs@3.5.0/dist/cdn.min.js"></script>
+    <style>
+        body {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        #userListContainer {
+            width: 48%;
+            margin-right: 2%;
+        }
+
+        #createFormContainer {
+            width: 48%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        #createUserContainer, #createBookContainer {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <div x-data="{
+    <div id="userListContainer" x-data="{
         responseData: [],
         async getData() {
             this.responseData = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/')).json();
         }
     }" x-init="getData">
+        <h1>Users</h1>
         <ul>
             <template x-for="user in responseData" :key="user.id">
                 <li>
@@ -25,37 +49,78 @@
         </ul>
     </div>
 
- <div x-data="{
-        responsedata: null,
-        email: null,
-        password: null,
-        async callmethod1() {
-            this.responsedata = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/',
-            {
-                method: 'POST',
-                body: JSON.stringify({
-                    email: this.email,
-                    password: this.password
-                }),
-                headers: {
-                    'Content-type': 'application/json; charset=UTF-8',
-                },
-            })).json();
+    <div id="createFormContainer">
+        <div id="createUserContainer" x-data="{
+            responsedata: null,
+            email: null,
+            password: null,
+            async callmethod1() {
+                this.responsedata = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        email: this.email,
+                        password: this.password
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                })).json();
 
-            console.log(this.responsedata);
-        },
-    }">
-     <br><br><br><br><br><br><br><br>
-     <h1>Create user</h1><br>
-     <h2>Email</h2>
-        <input type="text" x-model="email"><br>
-     <h2>Password</h2>
-     <input type="text" x-model="password"><br>
-        <button x-on:click="callmethod1">Create user</button>
+                console.log(this.responsedata);
+            },
+        }">
+            <h1>Create User</h1>
+            <label for="createUserEmail">Email:</label>
+            <input type="text" id="createUserEmail" x-model="email"><br>
+            <label for="createUserPassword">Password:</label>
+            <input type="text" id="createUserPassword" x-model="password"><br>
+            <button x-on:click="callmethod1">Create User</button>
 
-        <p>User added with id: <strong x-text="responsedata.id"></strong></p>
-        <p>User that was added: <strong x-text="responsedata.email"></strong></p>
+            <p>User added with ID: <strong x-text="responsedata.id"></strong></p>
+            <p>User that was added: <strong x-text="responsedata.email"></strong></p>
+        </div>
 
+        <div id="createBookContainer" x-data="{
+            responsedata: null,
+            title: null,
+            description: null,
+            releaseyear: null,
+            user: null,
+            async callmethod2() {
+                const userId = this.user; // Get the user ID from the input field
+                this.responsedata = await (await fetch(`https://system-service-jurnwynants.cloud.okteto.net/users/${userId}/books/`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        title: this.title,
+                        description: this.description,
+                        releaseyear: this.releaseyear
+                    }),
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                })).json();
+
+                console.log(this.responsedata);
+            },
+        }">
+            <h1>Create Book</h1>
+            <label for="createBookTitle">Title:</label>
+            <input type="text" id="createBookTitle" x-model="title"><br>
+            <label for="createBookDescription">Description:</label>
+            <input type="text" id="createBookDescription" x-model="description"><br>
+            <label for="createBookReleaseyear">Release Year:</label>
+            <input type="text" id="createBookReleaseyear" x-model="releaseyear"><br>
+            <label for="createBookUser">User ID:</label>
+            <input type="text" id="createBookUser" x-model="user"><br>
+
+            <button x-on:click="callmethod2">Create Book</button>
+
+            <p>Book for user: <strong x-text="responsedata.owner_id"></strong></p>
+            <p>Book Title: <strong x-text="responsedata.title"></strong></p>
+            <p>Book Description: <strong x-text="responsedata.description"></strong></p>
+            <p>Book Release Year: <strong x-text="responsedata.releaseyear"></strong></p>
+        </div>
     </div>
+
 </body>
 </html>
