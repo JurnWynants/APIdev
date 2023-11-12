@@ -26,11 +26,16 @@
     </style>
 </head>
 <body>
+
     <div id="userListContainer" x-data="{
         responseData: [],
-        async getData() {
-            this.responseData = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/')).json();
-        }
+       async getData() {
+    this.responseData = await (await fetch('https://system-service-jurnwynants.cloud.okteto.net/users/', {
+        headers: {
+            'Authorization': 'Basic ' + btoa('admin@bib.com:testPass'),
+        },
+    })).json();
+}
     }" x-init="getData">
         <h1>Users</h1>
         <ul>
@@ -63,6 +68,7 @@
                     }),
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
+                        'Authorization': 'Basic ' + btoa('admin@bib.com:testPass'),
                     },
                 })).json();
 
@@ -97,6 +103,7 @@
                     }),
                     headers: {
                         'Content-type': 'application/json; charset=UTF-8',
+                        'Authorization': 'Basic ' + btoa('admin@bib.com:testPass'),
                     },
                 })).json();
 
