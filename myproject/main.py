@@ -24,8 +24,7 @@ app = FastAPI()
 security = HTTPBasic()
 
 origins = [
-    "https://main--jolly-stroopwafel-5ddde3.netlify.app/",
-    "https://system-service-jurnwynants.cloud.okteto.net",
+    "*",
 ]
 
 
