@@ -1,7 +1,7 @@
 version: "3.9"
 services:
   system-service:
-    image: poezegast222/python-db-test
+    image: poezegast222/python-db-test2
     ports:
       - "8000:8000"
     environment:
